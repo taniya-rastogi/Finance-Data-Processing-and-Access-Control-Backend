@@ -28,9 +28,17 @@ const getRecent = async (req, res, next) => {
   }
 };
 
-const getTrends = async (req, res, next) => {
+const getDashboard = async (req, res, next) => {
   try {
-    const data = await Record.getTrends();
+    const { trend, category, startDate, endDate } = req.query;
+
+    const data = await Record.getDashboardData({
+      trend,
+      category,
+      startDate,
+      endDate
+    });
+
     res.json(data);
   } catch (error) {
     next(error);
@@ -41,5 +49,5 @@ module.exports = {
   getSummary,
   getCategoryTotals,
   getRecent,
-  getTrends
+  getDashboard
 };

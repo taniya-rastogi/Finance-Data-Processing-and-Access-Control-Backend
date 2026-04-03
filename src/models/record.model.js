@@ -67,12 +67,79 @@ const getSummary = async () => {
   };
 };
 
-// Category totals
-const getCategoryTotals = async () => {
+// Dashboard data
+const getDashboardData = async ({ trend, category, startDate, endDate }) => {
+  let where = "WHERE status='active'";
+  const params = [];
+
+  // Category filter
+  if (category) {
+    where += " AND category = ?";
+    params.push(category);
+  }
+
+  // Date filters
+  if (startDate && endDate) {
+    where += " AND date BETWEEN ? AND ?";
+    params.push(startDate, endDate);
+  }
+
+  // Trend grouping
+  let groupBy = "";
+  let selectTrend = "";
+
+  if (trend === "weekly") {
+    selectTrend = "CONCAT(YEAR(date), '-W', LPAD(WEEK(date, 1), 2, '0')) as period";
+    groupBy = "YEARWEEK(date, 1)";
+  } else if (trend === "monthly") {
+    selectTrend = "DATE_FORMAT(date, '%Y-%m') as period";
+    groupBy = "DATE_FORMAT(date, '%Y-%m')";
+  } else if (trend === "yearly") {
+    selectTrend = "YEAR(date) as period";
+    groupBy = "YEAR(date)";
+  } else {
+    // default → daily
+    selectTrend = "DATE(date) as period";
+    groupBy = "DATE(date)";
+  }
+
   const [rows] = await db.query(
-    "SELECT category, SUM(amount) as total FROM records WHERE status='active' GROUP BY category"
+    `SELECT 
+        ${selectTrend},
+        SUM(CASE WHEN type='income' THEN amount ELSE 0 END) as totalIncome,
+        SUM(CASE WHEN type='expense' THEN amount ELSE 0 END) as totalExpense
+     FROM records
+     ${where}
+     GROUP BY ${groupBy}
+     ORDER BY period ASC`,
+    params
   );
-  return rows;
+
+  return rows.map(r => ({
+    period: r.period,
+    totalIncome: r.totalIncome,
+    totalExpense: r.totalExpense,
+    netBalance: r.totalIncome - r.totalExpense
+  }));
+};
+
+const getCategoryTotals = async () => {
+  const [rows] = await db.query(`
+    SELECT 
+      category,
+      SUM(CASE WHEN type='income' THEN amount ELSE 0 END) as totalIncome,
+      SUM(CASE WHEN type='expense' THEN amount ELSE 0 END) as totalExpense
+    FROM records
+    WHERE status='active'
+    GROUP BY category
+  `);
+
+  return rows.map(row => ({
+    category: row.category,
+    totalIncome: row.totalIncome,
+    totalExpense: row.totalExpense,
+    netBalance: row.totalIncome - row.totalExpense
+  }));
 };
 
 // Recent records
@@ -103,5 +170,6 @@ module.exports = {
   getSummary,
   getCategoryTotals,
   getRecent,
-  getTrends
+  getTrends,
+  getDashboardData
 };

@@ -6,7 +6,8 @@ const {
   getSummary,
   getCategoryTotals,
   getRecent,
-  getTrends
+  getDashboard
+  // getTrends
 } = require('../controllers/dashboard.controller');
 
 const { authMiddleware } = require('../middlewares/auth.middleware');
@@ -15,6 +16,7 @@ const { authMiddleware } = require('../middlewares/auth.middleware');
 router.get('/summary', authMiddleware, getSummary);
 router.get('/category', authMiddleware, getCategoryTotals);
 router.get('/recent', authMiddleware, getRecent);
-router.get('/trends', authMiddleware, getTrends);
+router.get('/', authMiddleware, getDashboard);
+
 
 module.exports = router;
