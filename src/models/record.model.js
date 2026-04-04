@@ -11,67 +11,6 @@ const createRecord = async ({ amount, type, category, date, notes }) => {
 };
 
 // // Get records with filters
-// const getRecords = async ({ type, category, search, status, role, page = 1 }) => {
-
-//   const limit = 5;
-//   const pageNumber = Number(page) || 1;
-//   const offset = (pageNumber - 1) * limit;
-
-//   let selectFields = `
-//     id, amount, type, category, date, notes
-//   `;
-
-//   if (role === "admin") {
-//     selectFields += ", created_at, updated_at, status";
-//   }
-
-//   let query = `SELECT ${selectFields} FROM records`;
-//   const params = [];
-
-//   // Role-based base condition
-//   if (role !== "admin") {
-//     query += " WHERE status = 'active'";
-//   } else {
-//     query += " WHERE 1=1";
-//   }
-
-//   // Admin can filter by status
-//   if (role === "admin" && status) {
-//     query += " AND status = ?";
-//     params.push(status);
-//   }
-
-//   // Filters
-//   if (type) {
-//     query += " AND type = ?";
-//     params.push(type);
-//   }
-
-//   if (category) {
-//     query += " AND category = ?";
-//     params.push(category);
-//   }
-
-//   // Search (only text fields)
-//   if (search && search.trim() !== "") {
-//     const searchValue = `${search.trim()}%`;
-
-//     query += ` AND (
-//       type LIKE ? OR 
-//       category LIKE ?
-//     )`;
-
-//     params.push(searchValue, searchValue);
-//   }
-
-//   // Add pagination
-//   query += " LIMIT ? OFFSET ?";
-//   params.push(limit, offset);
-
-//   const [rows] = await db.query(query, params);
-//   return rows;
-// };
-
 const getRecords = async ({ type, category, search, status, role, page = 1 }) => {
 
   const limit = 5;

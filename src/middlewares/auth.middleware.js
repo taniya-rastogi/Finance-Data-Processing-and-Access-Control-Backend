@@ -1,5 +1,6 @@
 // financial-records-backend\src\middlewares\auth.middleware.js
 const jwt = require("jsonwebtoken");
+const AppError = require('../utils/AppError');
 
 const authMiddleware = (req, res, next) => {
   try {
