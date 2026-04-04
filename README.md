@@ -176,7 +176,7 @@ financial-records-backend/
 ## 1. Clone Repository
 
 ```
-git clone <your-repo-url>
+git clone https://github.com/taniya-rastogi/financial-records.git
 cd financial-records-backend
 ```
 
@@ -315,3 +315,11 @@ This project demonstrates:
 * Efficient data aggregation
 
 Focus is on **clarity, maintainability, and practical backend design**.
+
+---
+
+## 📌 Author
+
+Taniya Rastogi
+| Backend-focused developer (Node.js | Express | MySQL)
+
