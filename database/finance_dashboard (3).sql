@@ -1,10 +1,9 @@
---version 3
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 03, 2026 at 09:59 PM
+-- Generation Time: Apr 04, 2026 at 08:33 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -158,14 +157,15 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `email`, `password`, `role`, `status`, `created_at`, `updated_at`) VALUES
 (1, 'Akshay123@gmail.com', '$2b$10$WdUu6xowf0WBS5TYaIY7u.bcpn4EZLjRR24FKszhwjlD4sMzb.pMa', 'analyst', 'inactive', '2026-04-03 07:44:02', '2026-04-03 19:58:17'),
-(2, 'Neha@123', '$2b$10$5V8b67dtvAa.s7R4Wq0Ju.s7HbjcsIc/dXQPC0rDQiCDDHy5IsEAe', 'viewer', 'active', '2026-04-03 07:45:24', '2026-04-03 07:45:24'),
-(3, 'Mohit@123', '$2b$10$8Ac9k0bGHiK8t.CkzpT0tOEVlBXCHoSSNrWSL1NdBstsm.PVjxCLS', 'viewer', 'active', '2026-04-03 07:45:35', '2026-04-03 07:45:35'),
-(4, 'Ravi@123', '$2b$10$CKwmHarLHNpRJErQScJuEOZW8sARzAqh8ghpzTe9iujUHtkQEs56O', 'viewer', 'active', '2026-04-03 07:45:42', '2026-04-03 07:45:42'),
-(5, 'Prerna@123', '$2b$10$kEqwcPg9/ckawR7LMMWheOGW2FdNwMeqdPwocdn/8qqGlp0AkBaH6', 'viewer', 'active', '2026-04-03 07:45:53', '2026-04-03 07:45:53'),
+(2, 'Neha123@gamil.com', '$2b$10$5V8b67dtvAa.s7R4Wq0Ju.s7HbjcsIc/dXQPC0rDQiCDDHy5IsEAe', 'viewer', 'active', '2026-04-03 07:45:24', '2026-04-04 13:34:50'),
+(3, 'Mohit123@gamil.com', '$2b$10$8Ac9k0bGHiK8t.CkzpT0tOEVlBXCHoSSNrWSL1NdBstsm.PVjxCLS', 'viewer', 'active', '2026-04-03 07:45:35', '2026-04-04 13:35:24'),
+(4, 'Ravi123@gamil.com', '$2b$10$CKwmHarLHNpRJErQScJuEOZW8sARzAqh8ghpzTe9iujUHtkQEs56O', 'viewer', 'active', '2026-04-03 07:45:42', '2026-04-04 13:35:31'),
+(5, 'Prerna123@gamil.com', '$2b$10$kEqwcPg9/ckawR7LMMWheOGW2FdNwMeqdPwocdn/8qqGlp0AkBaH6', 'viewer', 'active', '2026-04-03 07:45:53', '2026-04-04 13:35:39'),
 (6, 'admin@gmail.com', '$2b$10$GWQYFCFn6d7wI.hwWC2L6uz49TYNIL4GQ./Tk4J7Qd/lbvcPwT8xy', 'admin', 'active', '2026-04-03 11:57:20', '2026-04-03 11:57:20'),
 (7, 'Pavan123@gmail.com', '$2b$10$drpbCCQmHpXkd/cQjhGJaeqneyGDpOUnsLUjLCRIEJMK/Hx3W2Yfa', 'analyst', 'active', '2026-04-03 14:13:59', '2026-04-03 14:13:59'),
 (8, 'Abhishek123@gmail.com', '$2b$10$eiUKsX6ZmiZ6wSy357SJnufB068ZU3DpdiCW78D2CB1BWv4DATHdu', 'analyst', 'active', '2026-04-03 14:15:36', '2026-04-03 14:15:36'),
-(9, 'Sujal123@gmail.com', '$2b$10$W5M/FK.E97Y3viFt2EYjWurg8WOll.pjLjQuWEcxcCRH7W6XJ6Uva', 'analyst', 'active', '2026-04-03 14:15:44', '2026-04-03 14:15:44');
+(9, 'Sujal123@gmail.com', '$2b$10$W5M/FK.E97Y3viFt2EYjWurg8WOll.pjLjQuWEcxcCRH7W6XJ6Uva', 'analyst', 'active', '2026-04-03 14:15:44', '2026-04-03 14:15:44'),
+(11, 'Divya123@gamil.com', '$2b$10$Czx2D3.CHAq0nzHsaF8ZzOgplW5S9M9.fzBHAuP4FeQHXo2GRlZhe', 'viewer', 'active', '2026-04-04 13:28:51', '2026-04-04 13:28:51');
 
 --
 -- Indexes for dumped tables
@@ -201,7 +201,7 @@ ALTER TABLE `records`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

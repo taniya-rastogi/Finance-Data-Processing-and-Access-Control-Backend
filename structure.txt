@@ -1,0 +1,46 @@
+financial-records-backend/
+├── database/
+│
+├── seeders/
+│   └── seedAdmin.js
+│
+├── src/
+│   ├── config/
+│   │   └── db.js
+│   │
+│   ├── controllers/
+│   │   ├── auth.controller.js
+│   │   ├── user.controller.js
+│   │   ├── record.controller.js
+│   │   └── dashboard.controller.js
+│   │
+│   ├── middlewares/
+│   │   ├── auth.middleware.js
+│   │   ├── role.middleware.js
+│   │   ├── error.middleware.js
+│   │   └── validation.middleware.js
+│   │
+│   ├── models/
+│   │   ├── user.model.js
+│   │   └── record.model.js
+│   │
+│   ├── routes/
+│   │   ├── auth.routes.js
+│   │   ├── user.routes.js
+│   │   ├── record.routes.js
+│   │   └── dashboard.routes.js
+│   │
+│   ├── utils/
+│   │   └── AppError.js
+│   │
+│   ├── validators/
+│   │   ├── auth.validator.js
+│   │   ├── user.validator.js
+│   │   └── record.validator.js
+│   │
+│   └── server.js
+│
+├── .env
+├── package.json
+├── package-lock.json
+└── README.md
