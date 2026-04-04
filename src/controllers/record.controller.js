@@ -1,4 +1,5 @@
 // financial-records-backend\src\controllers\record.controller.js
+const AppError = require('../utils/AppError');
 const Record = require('../models/record.model');
 
 // Create
@@ -14,7 +15,8 @@ const createRecord = async (req, res, next) => {
 // Get
 const getRecords = async (req, res, next) => {
   try {
-    const records = await Record.getRecords(req.query);
+    const role = req.user.role;
+    const records = await Record.getRecords({...req.query, role});
     res.json(records);
   } catch (error) {
     next(error);
@@ -24,8 +26,17 @@ const getRecords = async (req, res, next) => {
 // Update
 const updateRecord = async (req, res, next) => {
   try {
-    await Record.updateRecord(req.params.id, req.body);
-    res.json({ message: "Record updated" });
+    const result = await Record.updateRecord(req.params.id, req.body);
+
+    if (result.affectedRows === 0) {
+      throw new AppError("Record not found", 404);
+    }
+
+    res.json({
+      success: true,
+      message: "Record updated"
+    });
+
   } catch (error) {
     next(error);
   }
@@ -34,8 +45,17 @@ const updateRecord = async (req, res, next) => {
 // Delete (soft)
 const deleteRecord = async (req, res, next) => {
   try {
-    await Record.deleteRecord(req.params.id);
-    res.json({ message: "Record deleted" });
+    const result = await Record.deleteRecord(req.params.id);
+
+    if (result.affectedRows === 0) {
+      throw new AppError("Record not found", 404);
+    }
+
+    res.json({
+      success: true,
+      message: "Record deleted"
+    });
+
   } catch (error) {
     next(error);
   }

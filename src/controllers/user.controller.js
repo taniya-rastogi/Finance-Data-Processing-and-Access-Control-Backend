@@ -1,5 +1,6 @@
 // financial-records-backend\src\controllers\user.controller.js
 const bcryptjs = require('bcryptjs');
+const AppError = require('../utils/AppError');
 const User = require('../models/user.model');
 
 // Get all users
@@ -63,13 +64,23 @@ const updateUser = async (req, res, next) => {
 // Delete user
 const deleteUser = async (req, res, next) => {
   try {
-    await User.deleteUser(req.params.id);
-    res.json({ message: "User deleted" });
+    const result = await User.deleteUser(req.params.id);
+
+    if (result.affectedRows === 0) {
+      throw new AppError("User not found", 404);
+    }
+
+    res.json({
+      success: true,
+      message: "User deleted"
+    });
 
   } catch (error) {
     next(error);
   }
 };
+
+
 
 module.exports = {
   getUsers,

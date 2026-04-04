@@ -10,6 +10,14 @@ const {
   createUserByAdmin
 } = require('../controllers/user.controller');
 
+const {
+  createUserValidator,
+  updateUserValidator,
+  updateUserRoleValidator
+} = require('../validators/user.validator');
+
+const { validate } = require('../middlewares/validation.middleware');
+
 const { authMiddleware } = require('../middlewares/auth.middleware');
 const { isAdmin } = require('../middlewares/role.middleware');
 
@@ -17,13 +25,13 @@ const { isAdmin } = require('../middlewares/role.middleware');
 router.get('/', authMiddleware, isAdmin, getUsers);
 
 // Admin creates user
-router.post('/', authMiddleware, isAdmin, createUserByAdmin);
+router.post('/', authMiddleware, isAdmin, createUserValidator, validate, createUserByAdmin);
 
 // Update role
-router.patch('/:id/role', authMiddleware, isAdmin, updateUserRole);
+router.patch('/:id/role', authMiddleware, isAdmin, updateUserRoleValidator, validate, updateUserRole);
 
 // Update user (email, etc.)
-router.put('/:id', authMiddleware, isAdmin, updateUser);
+router.put('/:id', authMiddleware, isAdmin, updateUserValidator, validate, updateUser);
 
 // Delete user
 router.delete('/:id', authMiddleware, isAdmin, deleteUser);

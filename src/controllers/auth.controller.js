@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
+const AppError = require('../utils/AppError');
 const User = require('../models/user.model');
 
 // Register
@@ -14,7 +15,7 @@ const createUser = async (req, res, next) => {
     const existingUser = await User.findByEmail(email);
 
     if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
+      throw new AppError("User already exists", 400);
     }
 
     const hashedPassword = await bcryptjs.hash(password, 10);
@@ -24,7 +25,10 @@ const createUser = async (req, res, next) => {
       password: hashedPassword
     });
 
-    res.status(201).json({ message: "User registered successfully" });
+    res.status(201).json({
+      success: true,
+      message: "User registered successfully"
+    });
 
   } catch (error) {
     next(error);
@@ -39,24 +43,21 @@ const login = async (req, res, next) => {
     const user = await User.findByEmail(email);
 
     if (!user) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      throw new AppError("Invalid credentials", 401);
     }
 
     const isMatch = await bcryptjs.compare(password, user.password);
 
     if (!isMatch) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      throw new AppError("Invalid credentials", 401);
     }
 
     if (user.status === 'inactive') {
-      return res.status(403).json({ message: "User is inactive" });
+      throw new AppError("User is inactive", 403);
     }
 
     const token = jwt.sign(
-      {
-        id: user.id,
-        role: user.role
-      },
+      { id: user.id, role: user.role },
       process.env.JWT_SECRET,
       { expiresIn: "1d" }
     );
@@ -67,7 +68,10 @@ const login = async (req, res, next) => {
       sameSite: process.env.COOKIE_SAMESITE
     });
 
-    res.json({ message: "Login successful" });
+    res.json({
+      success: true,
+      message: "Login successful"
+    });
 
   } catch (error) {
     next(error);

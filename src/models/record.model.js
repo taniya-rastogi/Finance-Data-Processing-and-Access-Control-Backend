@@ -10,23 +10,147 @@ const createRecord = async ({ amount, type, category, date, notes }) => {
   return result;
 };
 
-// Get records with filters
-const getRecords = async ({ type, category }) => {
-  let query = "SELECT * FROM records WHERE status = 'active'";
+// // Get records with filters
+// const getRecords = async ({ type, category, search, status, role, page = 1 }) => {
+
+//   const limit = 5;
+//   const pageNumber = Number(page) || 1;
+//   const offset = (pageNumber - 1) * limit;
+
+//   let selectFields = `
+//     id, amount, type, category, date, notes
+//   `;
+
+//   if (role === "admin") {
+//     selectFields += ", created_at, updated_at, status";
+//   }
+
+//   let query = `SELECT ${selectFields} FROM records`;
+//   const params = [];
+
+//   // Role-based base condition
+//   if (role !== "admin") {
+//     query += " WHERE status = 'active'";
+//   } else {
+//     query += " WHERE 1=1";
+//   }
+
+//   // Admin can filter by status
+//   if (role === "admin" && status) {
+//     query += " AND status = ?";
+//     params.push(status);
+//   }
+
+//   // Filters
+//   if (type) {
+//     query += " AND type = ?";
+//     params.push(type);
+//   }
+
+//   if (category) {
+//     query += " AND category = ?";
+//     params.push(category);
+//   }
+
+//   // Search (only text fields)
+//   if (search && search.trim() !== "") {
+//     const searchValue = `${search.trim()}%`;
+
+//     query += ` AND (
+//       type LIKE ? OR 
+//       category LIKE ?
+//     )`;
+
+//     params.push(searchValue, searchValue);
+//   }
+
+//   // Add pagination
+//   query += " LIMIT ? OFFSET ?";
+//   params.push(limit, offset);
+
+//   const [rows] = await db.query(query, params);
+//   return rows;
+// };
+
+const getRecords = async ({ type, category, search, status, role, page = 1 }) => {
+
+  const limit = 5;
+  const pageNumber = Number(page) || 1;
+  const offset = (pageNumber - 1) * limit;
+
+  let selectFields = `
+    id, amount, type, category, date, notes
+  `;
+
+  if (role === "admin") {
+    selectFields += ", created_at, updated_at, status";
+  }
+
+  let baseQuery = `FROM records`;
+  let whereClause = "";
   const params = [];
 
+  // Role-based base condition
+  if (role !== "admin") {
+    whereClause += " WHERE status = 'active'";
+  } else {
+    whereClause += " WHERE 1=1";
+  }
+
+  // Admin can filter by status
+  if (role === "admin" && status) {
+    whereClause += " AND status = ?";
+    params.push(status);
+  }
+
+  // Filters
   if (type) {
-    query += " AND type = ?";
+    whereClause += " AND type = ?";
     params.push(type);
   }
 
   if (category) {
-    query += " AND category = ?";
+    whereClause += " AND category = ?";
     params.push(category);
   }
 
-  const [rows] = await db.query(query, params);
-  return rows;
+  // Search (IMPROVED)
+  if (search && search.trim() !== "") {
+    const searchValue = `%${search.trim()}%`;
+
+    whereClause += ` AND (
+      type LIKE ? OR 
+      category LIKE ?
+    )`;
+
+    params.push(searchValue, searchValue);
+  }
+
+  // ---------------- COUNT QUERY ----------------
+  const countQuery = `SELECT COUNT(*) as total ${baseQuery} ${whereClause}`;
+  const [countResult] = await db.query(countQuery, params);
+
+  const total = countResult[0].total;
+
+  // ---------------- DATA QUERY ----------------
+  const dataQuery = `
+    SELECT ${selectFields}
+    ${baseQuery}
+    ${whereClause}
+    LIMIT ? OFFSET ?
+  `;
+
+  const dataParams = [...params, limit, offset];
+
+  const [rows] = await db.query(dataQuery, dataParams);
+
+  // ---------------- RESPONSE ----------------
+  return {
+    data: rows,
+    total,
+    page: pageNumber,
+    totalPages: Math.ceil(total / limit)
+  };
 };
 
 // Update record
@@ -150,7 +274,7 @@ const getRecent = async () => {
   return rows;
 };
 
-// Trends (monthly)
+// Trends (date/weekly/monthly/yearly/range)
 const getTrends = async () => {
   const [rows] = await db.query(
     `SELECT DATE_FORMAT(date, '%Y-%m') as month, SUM(amount) as total

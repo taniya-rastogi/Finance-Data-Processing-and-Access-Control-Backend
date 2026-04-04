@@ -1,15 +1,13 @@
 // financial-records-backend\src\middlewares\role.middleware.js
+const AppError = require('../utils/AppError');
+
 const isAdmin = (req, res, next) => {
   if (!req.user) {
-    return res.status(401).json({
-      message: "Unauthorized"
-    });
+    return next(new AppError("Unauthorized", 401));
   }
 
   if (req.user.role !== "admin") {
-    return res.status(403).json({
-      message: "Only admin can access this"
-    });
+    return next(new AppError("Only admin can access this", 403));
   }
 
   next();
@@ -17,18 +15,11 @@ const isAdmin = (req, res, next) => {
 
 const isAdminOrAnalyst = (req, res, next) => {
   if (!req.user) {
-    return res.status(401).json({
-      message: "Unauthorized"
-    });
+    return next(new AppError("Unauthorized", 401));
   }
 
-  if (
-    req.user.role !== "admin" &&
-    req.user.role !== "analyst"
-  ) {
-    return res.status(403).json({
-      message: "Access denied"
-    });
+  if (req.user.role !== "admin" && req.user.role !== "analyst") {
+    return next(new AppError("Access denied", 403));
   }
 
   next();

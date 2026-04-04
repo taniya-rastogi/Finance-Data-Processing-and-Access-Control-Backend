@@ -1,4 +1,5 @@
 // financial-records-backend\src\controllers\dashboard.controller.js
+const AppError = require('../utils/AppError');
 const Record = require('../models/record.model');
 
 const getSummary = async (req, res, next) => {

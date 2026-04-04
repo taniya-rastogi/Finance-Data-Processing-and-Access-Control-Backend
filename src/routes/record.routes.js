@@ -13,14 +13,22 @@ const { authMiddleware } = require('../middlewares/auth.middleware');
 const { isAdmin } = require('../middlewares/role.middleware');
 const { isAdminOrAnalyst } = require('../middlewares/role.middleware');
 
+const {
+  createRecordValidator,
+  updateRecordValidator,
+  getRecordsValidator
+} = require('../validators/record.validator');
+
+const { validate } = require('../middlewares/validation.middleware');
+
 // Create record (Admin only)
-router.post('/', authMiddleware, isAdmin, createRecord);
+router.post('/', authMiddleware, isAdmin, createRecordValidator, validate, createRecord);
 
 // Get records (Analyst + Admin)
-router.get('/', authMiddleware, isAdminOrAnalyst, getRecords);
+router.get('/', authMiddleware, isAdminOrAnalyst, getRecordsValidator, validate, getRecords);
 
 // Update record (Admin only)
-router.put('/:id', authMiddleware, isAdmin, updateRecord);
+router.put('/:id', authMiddleware, isAdmin, updateRecordValidator, validate, updateRecord);
 
 // Soft delete (Admin only)
 router.delete('/:id', authMiddleware, isAdmin, deleteRecord);
