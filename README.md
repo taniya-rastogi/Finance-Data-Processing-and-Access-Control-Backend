@@ -1,88 +1,123 @@
-📊 Financial Records Backend
+# 📊 Financial Records Backend
 
-A backend system for a Finance Dashboard Application that manages users, roles, financial records, and provides analytical insights via dashboard APIs.
+A clean, structured backend for a **Finance Dashboard System** that supports user roles, financial record management, and analytics.
 
-This project demonstrates clean backend architecture, role-based access control, data modeling, validation, and aggregation logic.
+This project focuses on **real-world backend practices** such as role-based access control, modular architecture, validation, and efficient data querying.
 
-🚀 Features
-🔐 1. Authentication & Authorization
-User registration & login
-JWT-based authentication
-Cookie-based session handling
-Role-based access control (RBAC)
-👥 2. User & Role Management
+---
 
-Supports:
+# 🚀 Key Features
 
-Create users (Admin)
-Assign roles (viewer, analyst, admin)
-Update user details
-Activate / deactivate users
-Delete users
+## 🔐 Authentication & Authorization
 
-Roles:
+* User registration and login
+* JWT-based authentication
+* Secure cookie handling
+* Role-based access control (RBAC)
 
-Role	Permissions
-Viewer	View dashboard only
-Analyst	View records + dashboard insights
-Admin	Full access (CRUD users & records)
-💰 3. Financial Records Management
+---
 
-Supports:
+## 👥 User & Role Management
 
-Create records
-View records (with filters)
-Update records
-Soft delete records
+Manage system users with clear access control.
 
-Fields:
+**Capabilities:**
 
-Amount
-Type (income / expense)
-Category
-Date
-Notes
-Status (active, deleted)
-🔍 4. Advanced Query Features
-Pagination
-Filtering:
-Type
-Category
-Status (admin only)
-Search (partial match on type & category)
-📈 5. Dashboard APIs
+* Create users (Admin)
+* Assign roles: `viewer`, `analyst`, `admin`
+* Update user details
+* Activate / deactivate users
+* Delete users
 
-Provides aggregated data:
+**Role Permissions:**
 
-Total Income
-Total Expense
-Net Balance
-Category-wise totals
-Recent records
-Trends:
-Daily
-Weekly
-Monthly
-Yearly
-Custom date range
-🛡️ 6. Security & Best Practices
-Password hashing (bcrypt)
-JWT authentication
-HTTP-only cookies
-Helmet (security headers)
-Rate limiting
-Input validation (express-validator)
-Centralized error handling
+| Role    | Access              |
+| ------- | ------------------- |
+| Viewer  | Dashboard only      |
+| Analyst | Dashboard + Records |
+| Admin   | Full system access  |
 
-🧠 7. Access Control Logic
-Action	Viewer	Analyst	Admin
-View Dashboard	✅	✅	✅
-View Records  	❌	✅	✅
-Create Record  	❌	❌	✅
-Update Record  	❌	❌	✅
-Delete Record  	❌	❌	✅
-Manage Users  	❌	❌	✅
+---
 
+## 💰 Financial Records Management
+
+Handles all financial transactions efficiently.
+
+**Operations:**
+
+* Create records
+* Fetch records with filters
+* Update records
+* Soft delete records
+
+**Record Fields:**
+
+* Amount
+* Type (income / expense)
+* Category
+* Date
+* Notes
+* Status (active / deleted)
+
+---
+
+## 🔍 Advanced Querying
+
+Designed for real-world usability:
+
+* Pagination support
+* Filtering by type, category, status
+* Search using partial matching (`LIKE` queries)
+
+---
+
+## 📈 Dashboard & Analytics APIs
+
+Provides aggregated insights:
+
+* Total Income
+* Total Expense
+* Net Balance
+* Category-wise summary
+* Recent transactions
+* Trends:
+
+  * Daily
+  * Weekly
+  * Monthly
+  * Yearly
+  * Custom date range
+
+---
+
+## 🛡️ Security & Reliability
+
+* Password hashing using bcrypt
+* JWT authentication
+* HTTP-only cookies
+* Helmet for secure headers
+* Rate limiting
+* Input validation
+* Centralized error handling
+
+---
+
+## 🧠 Access Control Matrix
+
+| Action         | Viewer | Analyst | Admin |
+| -------------- | ------ | ------- | ----- |
+| View Dashboard | ✅      | ✅       | ✅     |
+| View Records   | ❌      | ✅       | ✅     |
+| Create Record  | ❌      | ❌       | ✅     |
+| Update Record  | ❌      | ❌       | ✅     |
+| Delete Record  | ❌      | ❌       | ✅     |
+| Manage Users   | ❌      | ❌       | ✅     |
+
+---
+
+# 🏗️ Project Structure
+
+```
 financial-records-backend/
 ├── database/
 ├── seeders/
@@ -93,77 +128,69 @@ financial-records-backend/
 │   │   └── db.js
 │   │
 │   ├── controllers/
-│   │   ├── auth.controller.js
-│   │   ├── user.controller.js
-│   │   ├── record.controller.js
-│   │   └── dashboard.controller.js
-│   │
 │   ├── middlewares/
-│   │   ├── auth.middleware.js
-│   │   ├── role.middleware.js
-│   │   ├── error.middleware.js
-│   │   └── validation.middleware.js
-│   │
 │   ├── models/
-│   │   ├── user.model.js
-│   │   └── record.model.js
-│   │
 │   ├── routes/
-│   │   ├── auth.routes.js
-│   │   ├── user.routes.js
-│   │   ├── record.routes.js
-│   │   └── dashboard.routes.js
-│   │
 │   ├── utils/
-│   │   └── AppError.js
-│   │
 │   ├── validators/
-│   │   ├── auth.validator.js
-│   │   ├── user.validator.js
-│   │   └── record.validator.js
 │   │
 │   └── server.js
 │
 ├── .env
 ├── package.json
 └── README.md
+```
 
-🗄️ Database Design
-'users Table'
-Field    	    Type
-id	          INT
-email    	    VARCHAR
-password	    VARCHAR
-role    	    ENUM
-status  	    ENUM
-created_at	  TIMESTAMP
-updated_at	  TIMESTAMP
+---
 
-'records Table'
-Field	        Type
-id	          INT
-amount		    DECIMAL
-type	       	ENUM
-category	   	VARCHAR
-date	       	DATE
-notes		      TEXT
-status	     	ENUM
-created_at  	TIMESTAMP
-updated_at  	TIMESTAMP
+# 🗄️ Database Design
 
+## Users Table
 
-⚙️ Setup Instructions
+| Field    | Type    |
+| -------- | ------- |
+| id       | INT     |
+| email    | VARCHAR |
+| password | VARCHAR |
+| role     | ENUM    |
+| status   | ENUM    |
 
-1. Clone Repository
-git clone <repo-url>
+---
+
+## Records Table
+
+| Field    | Type    |
+| -------- | ------- |
+| id       | INT     |
+| amount   | DECIMAL |
+| type     | ENUM    |
+| category | VARCHAR |
+| date     | DATE    |
+| notes    | TEXT    |
+| status   | ENUM    |
+
+---
+
+# ⚙️ Setup Guide (Step-by-Step)
+
+## 1. Clone Repository
+
+```
+git clone <your-repo-url>
 cd financial-records-backend
+```
 
-2. Install Dependencies
+## 2. Install Dependencies
+
+```
 npm install
+```
 
-3. Configure Environment Variables
+## 3. Configure Environment Variables
 
-Create .env file:
+Create a `.env` file:
+
+```
 PORT=3000
 
 FRONTEND_URL_1=http://127.0.0.1:5500
@@ -180,80 +207,111 @@ DB_NAME=finance_dashboard
 
 ADMIN_EMAIL=admin@gmail.com
 ADMIN_PASSWORD=admin123
+```
 
-4. Setup Database
-Import SQL schema using phpMyAdmin or MySQL CLI
+## 4. Setup Database
 
-5. Seed Admin User
+* Create database: `finance_dashboard`
+* Import provided SQL schema
+
+## 5. Seed Admin User
+
+```
 node seeders/seedAdmin.js
+```
 
-6. Start Server
+## 6. Start Server
+
+```
 node src/server.js
+```
 
-📡 API Endpoints
+Server will run on:
+👉 [http://localhost:3000](http://localhost:3000)
 
-🔐 Auth
+---
 
-Method	Endpoint
-POST	/api/auth/register
-POST	/api/auth/login
+# 📡 API Reference
 
-👥 Users (Admin Only)
+## 🔐 Authentication
 
-Method	Endpoint
-GET	/api/users
-POST	/api/users
-PUT	/api/users/:id
-PATCH	/api/users/:id/role
-DELETE	/api/users/:id
+| Method | Endpoint           |
+| ------ | ------------------ |
+| POST   | /api/auth/register |
+| POST   | /api/auth/login    |
 
-💰 Records
+---
 
-Method	Endpoint	Access
-POST	/api/records	Admin
-GET	/api/records	Analyst, Admin
-PUT	/api/records/:id	Admin
-DELETE	/api/records/:id	Admin
+## 👥 Users (Admin Only)
 
-📊 Dashboard
+| Method | Endpoint            |
+| ------ | ------------------- |
+| GET    | /api/users          |
+| POST   | /api/users          |
+| PUT    | /api/users/:id      |
+| PATCH  | /api/users/:id/role |
+| DELETE | /api/users/:id      |
 
-Method	Endpoint
-GET	/api/dashboard/summary
-GET	/api/dashboard/category
-GET	/api/dashboard/recent
-GET	/api/dashboard?trend=monthly
+---
 
-🧾 Validation & Error Handling
+## 💰 Records
 
-Centralized error handling using custom AppError
-Request validation via express-validator
-Proper HTTP status codes:
-400 → Bad Request
-401 → Unauthorized
-403 → Forbidden
-404 → Not Found
-500 → Server Error
+| Method | Endpoint         | Access         |
+| ------ | ---------------- | -------------- |
+| POST   | /api/records     | Admin          |
+| GET    | /api/records     | Analyst, Admin |
+| PUT    | /api/records/:id | Admin          |
+| DELETE | /api/records/:id | Admin          |
 
-🔄 Data Handling Decisions
+---
 
-Soft Delete
-Records are not permanently deleted
-Status updated to deleted
-Non-admin users cannot see deleted records
+## 📊 Dashboard
 
-Pagination
-Default: 5 records per page
-Query param: ?page=1
+| Method | Endpoint                     |
+| ------ | ---------------------------- |
+| GET    | /api/dashboard/summary       |
+| GET    | /api/dashboard/category      |
+| GET    | /api/dashboard/recent        |
+| GET    | /api/dashboard?trend=monthly |
 
-Search
-Partial matching using SQL LIKE
-Works on:
-type
-category
+---
 
-⚖️ Design Decisions & Tradeoffs
+# 🔄 Data Handling Decisions
 
-Used MySQL (Relational DB) for structured financial data
-Implemented RBAC via middleware for clean separation
-Chose cookie-based JWT for better frontend integration
-Used manual SQL queries instead of ORM for simplicity and control
+## Soft Delete
+
+* Records are not permanently removed
+* Status updated to `deleted`
+* Hidden from non-admin users
+
+## Pagination
+
+* Default limit: 5
+* Query: `?page=1`
+
+## Search
+
+* Partial matching using SQL `LIKE`
+* Applied on type and category
+
+---
+
+# ⚖️ Design Choices
+
+* Relational database (MySQL) for structured data
+* Middleware-based RBAC for clean separation
+* Cookie-based JWT authentication
+* Raw SQL for better control and clarity
+
+---
+
+# 📌 Final Notes
+
+This project demonstrates:
+
+* Scalable backend structure
+* Clean separation of concerns
+* Secure authentication & authorization
+* Efficient data aggregation
+
+Focus is on **clarity, maintainability, and practical backend design**.
