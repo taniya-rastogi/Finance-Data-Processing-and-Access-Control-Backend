@@ -171,6 +171,19 @@ financial-records-backend/
 
 ---
 
+## 🧰 Tech Stack
+
+* Backend: Node.js, Express.js
+* Database: MySQL (mysql2)
+* Authentication: JWT (jsonwebtoken) + HTTP-only cookies
+* Security: Helmet, Express Rate Limit, Cookie Parser
+* Validation: express-validator
+* Password Hashing: bcryptjs
+* Architecture: Role-Based Access Control (RBAC)
+* Environment Management: dotenv
+* 
+---
+
 # ⚙️ Setup Guide (Step-by-Step)
 
 ## 1. Clone Repository
